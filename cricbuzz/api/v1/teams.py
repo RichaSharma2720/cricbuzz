@@ -8,14 +8,12 @@ from flask_restx import Namespace, Resource, reqparse, fields
 # parser.add_argument('team_coach', type=str, required=True, help="Team Coach is required")
 
 
-
 from cricbuzz.services import team_service
 
 import logging
 import logging.config
 
 log = logging.getLogger(__name__)
-
 
 api = Namespace('teams', description='scroe card')
 
@@ -51,3 +49,30 @@ class Teams(Resource):
         else:
             return {'message': 'Failed to add new team'}, 500
 
+
+@api.route('/<int:team_id>')
+class GetTeam(Resource):
+    def get(self, team_id):
+        team = team_service.get_team_by_id(team_id)
+        if team:
+            return team, 200
+        else:
+            return jsonify({'error': 'Team not found'}), 404
+
+    @api.expect(team_model)
+    def put(self, team_id):
+        data = request.get_json()
+
+        updated_team = team_service.update_team_by_id(team_id, data)
+        if updated_team:
+            return updated_team, 200
+        else:
+            return jsonify({'error': 'Team not found'}), 404
+
+
+    def delete(self, team_id):
+        team = team_service.delete_team_by_id(team_id)
+        if team:
+            return jsonify({'message': 'Team deleted successfully'}), 200
+        else:
+            return jsonify({'error': 'Team not found'}), 404

@@ -49,7 +49,7 @@ def main():
     app = create_app('dev')
     host = '0.0.0.0'
     port = 5000
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, DEBUG = True)
 
 
 if __name__ == '__main__':
