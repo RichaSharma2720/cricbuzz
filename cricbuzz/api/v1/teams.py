@@ -1,13 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_restx import Namespace, Resource, reqparse, fields
 
-# parser = reqparse.RequestParser()
-# parser.add_argument('team_name', type=str, required=True, help="Team Name is required")
-# parser.add_argument('team_country', type=str, required=True, help="Team Country is required")
-# parser.add_argument('team_captain', type=str, required=True, help="Team Captain is required")
-# parser.add_argument('team_coach', type=str, required=True, help="Team Coach is required")
-
-
 from cricbuzz.services import team_service
 
 import logging
@@ -76,3 +69,6 @@ class GetTeam(Resource):
             return jsonify({'message': 'Team deleted successfully'}), 200
         else:
             return jsonify({'error': 'Team not found'}), 404
+
+
+

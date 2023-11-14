@@ -15,13 +15,13 @@ def create_app(config_name='dev'):
     config = config_by_name[config_name]
     app = Flask(config.APP_NAME)
 
-    app.register_error_handler(404, not_found_error)
-    app.register_error_handler(Exception, global_error_handler)
+    # app.register_error_handler(404, not_found_error)
+    # app.register_error_handler(Exception, global_error_handler)
 
     app.config.from_object(config)
     app.register_blueprint(api_v1)
 
-    logging.config.fileConfig(app.config.get('LOG_CONFIG_PATH'))
+    # logging.config.fileConfig(app.config.get('LOG_CONFIG_PATH'))
 
     db_connection_uri = f"{config.DB_DIALECT}://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
     app.config["SQLALCHEMY_DATABASE_URI"] = db_connection_uri

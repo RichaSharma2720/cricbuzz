@@ -28,6 +28,16 @@ class Player(db.Model):
     player_age = db.Column(db.Integer)
     player_role = db.Column(db.String)
 
+    # Serialize method
+    def serialize(self):
+        return {
+            'player_id': self.player_id,
+            'player_name': self.player_name,
+            'player_country': self.player_country,
+            'player_age': self.player_age,
+            'player_role': self.player_role
+        }
+
 
 class Match(db.Model):
     __tablename__ = 'match'
@@ -41,6 +51,20 @@ class Match(db.Model):
     winning_team_id = db.Column(db.Integer, db.ForeignKey('team.team_id'))
     status = db.Column(db.String)
 
+    # serialize method
+    def serialize(self):
+        return {
+            'match_id': self.match_id,
+            'team1_id': self.team1_id,
+            'team2_id': self.team2_id,
+            'venue': self.venue,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'result': self.result,
+            'winning_team_id': self.winning_team_id,
+            'status': self.status
+        }
+
 
 class Innings(db.Model):
     __tablename__ = 'innings'
@@ -53,8 +77,20 @@ class Innings(db.Model):
     current_batsmen_ids = db.Column(db.String)  # Comma-separated player IDs
     current_bowler_id = db.Column(db.Integer)
     live_commentary = db.Column(db.String)
-    # ... other relevant inning information
 
+    # serialize method
+    def serialize(self):
+        return {
+            'innings_id': self.innings_id,
+            'match_id': self.match_id,
+            'team_id': self.team_id,
+            'total_runs': self.total_runs,
+            'wickets_lost': self.wickets_lost,
+            'total_overs': self.total_overs,
+            'current_batsmen_ids': self.current_batsmen_ids,
+            'current_bowler_id': self.current_bowler_id,
+            'live_commentary': self.live_commentary
+        }
 
 class PlayerStats(db.Model):
     __tablename__ = 'player_stats'
@@ -67,10 +103,31 @@ class PlayerStats(db.Model):
     bowling_economy = db.Column(db.Float)
     batting_strike_rate = db.Column(db.Float)
 
+    # serialize method
+    def serialize(self):
+        return {
+            'player_stats_id': self.player_stats_id,
+            'player_id': self.player_id,
+            'innings_id': self.innings_id,
+            'runs_scored': self.runs_scored,
+            'balls_faced': self.balls_faced,
+            'wickets_taken': self.wickets_taken,
+            'bowling_economy': self.bowling_economy,
+            'batting_strike_rate': self.batting_strike_rate
+        }
+
 
 class MatchCommentary(db.Model):
     __tablename__ = 'match_commentary'
     commentary_id = db.Column(db.Integer, primary_key=True)
     match_id = db.Column(db.Integer, db.ForeignKey('match.match_id'))
     commentary = db.Column(db.String)  # Field to store real-time commentary for a match
+
+    # serialize method
+    def serialize(self):
+        return {
+            'commentary_id': self.commentary_id,
+            'match_id': self.match_id,
+            'commentary': self.commentary
+        }
 
